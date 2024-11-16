@@ -3,7 +3,10 @@
 ## Overview
 Pepewagon is a decentralized application (dApp) for capturing and verifying location-based data on the Flow EVM network. It consists of two main smart contracts:
 - **Pepewagentoken (PPWG)**: An ERC20 token with permit functionality
+https://evm-testnet.flowscan.io/address/0xAF85A0023fAc623fCE4F20f50BD475C01e6791B1#code
 - **Pepewagon**: A location-based data capture and verification system
+https://evm-testnet.flowscan.io/address/0xEC0Bc9D59A187AA5693084657deC06889A8398bD#code
+
 
 ## Deployed Contracts (Flow EVM Testnet)
 
