@@ -1,35 +1,45 @@
 const hre = require("hardhat");
 
 async function main() {
+  console.log("Starting deployment on Flow EVM testnet...");
+
   // Deploy Pepewagentoken
   const Pepewagentoken = await hre.ethers.getContractFactory("Pepewagentoken");
   const token = await Pepewagentoken.deploy();
   await token.waitForDeployment();
-  console.log("Pepewagentoken deployed to:", await token.getAddress());
+  const tokenAddress = await token.getAddress();
+  console.log("Pepewagentoken deployed to:", tokenAddress);
 
-  // Wait for a few blocks for better verification
-  await new Promise(resolve => setTimeout(resolve, 30000));
+  // Wait for confirmations
+  console.log("Waiting for Pepewagentoken block confirmations...");
+  await token.deploymentTransaction().wait(5);
 
   // Deploy Pepewagon
   const Pepewagon = await hre.ethers.getContractFactory("Pepewagon");
   const wagon = await Pepewagon.deploy();
   await wagon.waitForDeployment();
-  console.log("Pepewagon deployed to:", await wagon.getAddress());
+  const wagonAddress = await wagon.getAddress();
+  console.log("Pepewagon deployed to:", wagonAddress);
 
-  // Wait for a few blocks before verification
-  await new Promise(resolve => setTimeout(resolve, 30000));
+  // Wait for confirmations
+  console.log("Waiting for Pepewagon block confirmations...");
+  await wagon.deploymentTransaction().wait(5);
 
-  // Verify Pepewagentoken
-  await hre.run("verify:verify", {
-    address: await token.getAddress(),
-    constructorArguments: [],
-  });
-
-  // Verify Pepewagon
-  await hre.run("verify:verify", {
-    address: await wagon.getAddress(),
-    constructorArguments: [],
-  });
+  console.log("\nDeployment completed!");
+  console.log("\nContract addresses:");
+  console.log("Pepewagentoken:", tokenAddress);
+  console.log("Pepewagon:", wagonAddress);
+  
+  console.log("\nVerification commands:");
+  console.log(`\nVerify Pepewagentoken:`);
+  console.log(`npx hardhat verify --network flowTestnet ${tokenAddress}`);
+  
+  console.log(`\nVerify Pepewagon:`);
+  console.log(`npx hardhat verify --network flowTestnet ${wagonAddress}`);
+  
+  console.log("\nYou can view your contracts at:");
+  console.log(`https://evm-testnet.flowscan.io/address/${tokenAddress}`);
+  console.log(`https://evm-testnet.flowscan.io/address/${wagonAddress}`);
 }
 
 main()

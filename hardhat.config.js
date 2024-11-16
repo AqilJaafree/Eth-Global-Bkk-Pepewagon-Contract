@@ -1,7 +1,6 @@
 require("@nomicfoundation/hardhat-toolbox");
 require("dotenv").config();
 
-/** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
   solidity: {
     version: "0.8.27",
@@ -13,25 +12,26 @@ module.exports = {
     }
   },
   networks: {
-    scrollSepolia: {
-      url: "https://sepolia-rpc.scroll.io",
-      chainId: 534351,
+    flowTestnet: {
+      url: "https://testnet.evm.nodes.onflow.org",
       accounts: [process.env.PRIVATE_KEY],
+      chainId: 545
     }
   },
   etherscan: {
-    apiKey: {
-      scrollSepolia: process.env.SCROLLSCAN_API_KEY
-    },
+    apiKey: "any", // Flow testnet doesn't require an API key
     customChains: [
       {
-        network: "scrollSepolia",
-        chainId: 534351,
+        network: "flowTestnet",
+        chainId: 545,
         urls: {
-          apiURL: "https://api-sepolia.scrollscan.com/api",
-          browserURL: "https://sepolia.scrollscan.com"
+          apiURL: "https://evm-testnet.flowscan.io/api",
+          browserURL: "https://evm-testnet.flowscan.io"
         }
       }
     ]
+  },
+  sourcify: {
+    enabled: true
   }
 };

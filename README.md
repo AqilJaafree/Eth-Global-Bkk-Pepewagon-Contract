@@ -1,21 +1,22 @@
 # Eth Global Bangkok 2024 Pepewagon 
 
 ## Overview
-Pepewagon is a decentralized application (dApp) for capturing and verifying location-based data on the Scroll network. It consists of two main smart contracts:
+Pepewagon is a decentralized application (dApp) for capturing and verifying location-based data on the Flow EVM network. It consists of two main smart contracts:
 - **Pepewagentoken (PPWG)**: An ERC20 token with permit functionality
 - **Pepewagon**: A location-based data capture and verification system
 
-## Deployed Contracts (Scroll Sepolia)
+## Deployed Contracts (Flow EVM Testnet)
 
 ### Pepewagentoken (PPWG)
-- **Address**: [`0x74bc37d7B2928E9C8e98f9c27c0423ed44b2D52f`](https://sepolia.scrollscan.com/address/0x74bc37d7B2928E9C8e98f9c27c0423ed44b2D52f)
+- **Network**: Flow EVM Testnet (Chain ID: 545)
+- **Explorer**: https://evm-testnet.flowscan.io
 - **Token Symbol**: PPWG
 - **Decimals**: 18
 - **Total Supply**: 100,000,000,000 PPWG
 - **Features**: ERC20Permit support
 
 ### Pepewagon
-- **Address**: [`0x81E6E2746CDDd8Faa30B859CBF7c62Cdf0deD014`](https://sepolia.scrollscan.com/address/0x81E6E2746CDDd8Faa30B859CBF7c62Cdf0deD014)
+- **Network**: Flow EVM Testnet (Chain ID: 545)
 - **Features**: Location-based data capture and verification system
 
 ## Smart Contract Features
@@ -118,17 +119,29 @@ npm install
 Create a `.env` file:
 ```
 PRIVATE_KEY=your_wallet_private_key
-SCROLLSCAN_API_KEY=your_scrollscan_api_key
 ```
+
+### Flow EVM Network Setup
+Add Flow EVM Testnet to MetaMask:
+- Network Name: Flow EVM Testnet
+- RPC URL: https://testnet.evm.nodes.onflow.org
+- Chain ID: 545
+- Currency Symbol: FLOW
+- Block Explorer URL: https://evm-testnet.flowscan.io
 
 ### Deployment
 ```bash
-npx hardhat run scripts/deploy.js --network scrollSepolia
+npx hardhat run scripts/deploy.js --network flowTestnet
 ```
 
 ### Testing
 ```bash
 npx hardhat test
+```
+
+### Verify Contract
+```bash
+npx hardhat verify --network flowTestnet CONTRACT_ADDRESS
 ```
 
 ## Security Considerations
@@ -137,6 +150,10 @@ npx hardhat test
 - Uses OpenZeppelin's battle-tested contracts
 - Consider rate limiting for production use
 
+## Resources
+- [Flow EVM Documentation](https://developers.flow.com/evm)
+- [Flow Testnet Faucet](https://testnet-faucet.onflow.org)
+- [Flow EVM Block Explorer](https://evm-testnet.flowscan.io)
+
 ## License
 MIT
-
