@@ -1,22 +1,35 @@
-# Eth Global Bangkok 2024 Pepewagon 
+# Eth Global Bangkok 2024 Pepewagon
 
 ## Overview
-Pepewagon is a decentralized application (dApp) for capturing and verifying location-based data on the Scroll network. It consists of two main smart contracts:
+Pepewagon is a decentralized application (dApp) for capturing and verifying location-based data on multiple networks. It consists of two main smart contracts deployed on both Scroll Sepolia and Polygon zkEVM Cardona networks:
 - **Pepewagentoken (PPWG)**: An ERC20 token with permit functionality
 - **Pepewagon**: A location-based data capture and verification system
 
-## Deployed Contracts (Scroll Sepolia)
+## Deployed Contracts
 
-### Pepewagentoken (PPWG)
-- **Address**: [`0x74bc37d7B2928E9C8e98f9c27c0423ed44b2D52f`](https://sepolia.scrollscan.com/address/0x74bc37d7B2928E9C8e98f9c27c0423ed44b2D52f)
+### Polygon zkEVM Cardona Network
+#### Pepewagentoken (PPWG)
+- **Address**: [`0xAF85A0023fAc623fCE4F20f50BD475C01e6791B1`](https://cardona-zkevm.polygonscan.com/address/0xAF85A0023fAc623fCE4F20f50BD475C01e6791B1)
 - **Token Symbol**: PPWG
 - **Decimals**: 18
 - **Total Supply**: 100,000,000,000 PPWG
 - **Features**: ERC20Permit support
 
-### Pepewagon
-- **Address**: [`0x81E6E2746CDDd8Faa30B859CBF7c62Cdf0deD014`](https://sepolia.scrollscan.com/address/0x81E6E2746CDDd8Faa30B859CBF7c62Cdf0deD014)
+#### Pepewagon
+- **Address**: [`0xEC0Bc9D59A187AA5693084657deC06889A8398bD`](https://cardona-zkevm.polygonscan.com/address/0xEC0Bc9D59A187AA5693084657deC06889A8398bD)
 - **Features**: Location-based data capture and verification system
+
+## Network Configurations
+
+### Polygon zkEVM Cardona
+```javascript
+{
+    chainId: '0x98a', // 2442
+    chainName: 'Polygon zkEVM Cardona',
+    rpcUrls: ['https://rpc.cardona.zkevm-rpc.com'],
+    blockExplorerUrls: ['https://cardona-zkevm.polygonscan.com/']
+}
+```
 
 ## Smart Contract Features
 
@@ -30,75 +43,24 @@ Pepewagon is a decentralized application (dApp) for capturing and verifying loca
    - Store location data with IPFS hashes
    - Latitude/longitude precision to 6 decimal places
    - Automatic contributor point system
+   - Supported on both networks
 
 2. **Verification System**
    - Multi-signature verification (requires 3 verifications)
    - Prevention of self-verification
    - Bonus points for verified captures
+   - Cross-network verification tracking
 
 3. **Location Tracking**
    - Unique location mapping system
    - Capture count per location
    - Last update timestamp tracking
+   - Network-specific tracking
 
-## Contract Interaction
-
-### Adding a New Capture
-```solidity
-function addCapture(
-    string memory _ipfsHash,
-    int256 _latitude,
-    int256 _longitude
-) public returns (bytes32)
-```
-- `_latitude`: Range -90e6 to 90e6 (multiply by 1e6 for precision)
-- `_longitude`: Range -180e6 to 180e6 (multiply by 1e6 for precision)
-- Returns: Unique capture ID
-
-Example:
-```javascript
-// Adding a capture at coordinates (40.7128° N, 74.0060° W)
-const latitude = 40.7128 * 1e6;  // 40712800
-const longitude = -74.0060 * 1e6; // -74006000
-const ipfsHash = "QmExample...";
-await pepewagon.addCapture(ipfsHash, latitude, longitude);
-```
-
-### Verifying a Capture
-```solidity
-function verifyCapture(bytes32 _captureId) public
-```
-- Requires different address than capture contributor
-- Each address can verify once
-- Three verifications required for full verification status
-
-### Querying Location Data
-```solidity
-function getLocationKey(int256 _lat, int256 _lon) public pure returns (bytes32)
-```
-- Generates unique key for location lookup
-
-## Events
-
-### NewCapture
-```solidity
-event NewCapture(
-    bytes32 indexed captureId,
-    string ipfsHash,
-    int256 latitude,
-    int256 longitude,
-    address indexed contributor
-)
-```
-
-### CaptureVerified
-```solidity
-event CaptureVerified(
-    bytes32 indexed captureId,
-    address indexed verifier,
-    uint256 currentVerifications
-)
-```
+## Reward System
+- **Upload Reward**: 50 PPWG tokens per successful upload
+- **Verification Reward**: 30 PPWG tokens per successful verification
+- Rewards are network-specific and distributed on the respective network
 
 ## Development
 
@@ -119,24 +81,54 @@ Create a `.env` file:
 ```
 PRIVATE_KEY=your_wallet_private_key
 SCROLLSCAN_API_KEY=your_scrollscan_api_key
+POLYGONSCAN_API_KEY=your_polygonscan_api_key
 ```
 
 ### Deployment
+For Scroll Sepolia:
 ```bash
 npx hardhat run scripts/deploy.js --network scrollSepolia
 ```
 
-### Testing
+For Polygon zkEVM Cardona:
 ```bash
-npx hardhat test
+npx hardhat run scripts/deploy.js --network polygonZkEVMCardona
+```
+
+### Network Configuration
+```javascript
+module.exports = {
+  networks: {
+    scrollSepolia: {
+      url: "https://sepolia-rpc.scroll.io",
+      chainId: 534351,
+      accounts: [process.env.PRIVATE_KEY],
+    },
+    polygonZkEVMCardona: {
+      url: "https://rpc.cardona.zkevm-rpc.com",
+      accounts: [process.env.PRIVATE_KEY],
+      chainId: 2442
+    }
+  }
+};
 ```
 
 ## Security Considerations
 - Latitude/longitude values are stored with 6 decimal precision
 - Verification system prevents self-verification
 - Uses OpenZeppelin's battle-tested contracts
+- Network-specific data segregation
 - Consider rate limiting for production use
+
+## Frontend Features
+- Network switching support
+- Network-specific theming (Purple for Polygon, Blue for Scroll)
+- Seamless cross-network experience
+- Unified capture and verification interface
+- Real-time network status indicators
 
 ## License
 MIT
 
+## Contributing
+Contributions are welcome! Please feel free to submit a Pull Request.
