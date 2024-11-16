@@ -24,7 +24,7 @@ module.exports = {
     },
     customChains: [
       {
-        network: "polygonZkEVMCardona",
+        network: "Polygon zkEVM Cardona Testnet",
         chainId: 2442,
         urls: {
           apiURL: "https://api-cardona-zkevm.polygonscan.com/api",
