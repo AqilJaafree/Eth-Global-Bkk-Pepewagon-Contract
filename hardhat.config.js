@@ -1,7 +1,6 @@
 require("@nomicfoundation/hardhat-toolbox");
 require("dotenv").config();
 
-/** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
   solidity: {
     version: "0.8.27",
@@ -13,25 +12,28 @@ module.exports = {
     }
   },
   networks: {
-    scrollSepolia: {
-      url: "https://sepolia-rpc.scroll.io",
-      chainId: 534351,
+    polygonZkEVMCardona: {
+      url: "https://rpc.cardona.zkevm-rpc.com",
       accounts: [process.env.PRIVATE_KEY],
+      chainId: 2442
     }
   },
   etherscan: {
     apiKey: {
-      scrollSepolia: process.env.SCROLLSCAN_API_KEY
+      polygonZkEVMCardona: process.env.POLYGONSCAN_API_KEY
     },
     customChains: [
       {
-        network: "scrollSepolia",
-        chainId: 534351,
+        network: "polygonZkEVMCardona",
+        chainId: 2442,
         urls: {
-          apiURL: "https://api-sepolia.scrollscan.com/api",
-          browserURL: "https://sepolia.scrollscan.com"
+          apiURL: "https://api-cardona-zkevm.polygonscan.com/api",
+          browserURL: "https://cardona-zkevm.polygonscan.com/"
         }
       }
     ]
+  },
+   sourcify: {
+    enabled: true
   }
 };
